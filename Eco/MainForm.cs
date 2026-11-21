@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -35,7 +35,6 @@ namespace Eco
         public MainForm()
         {
             InitializeComponent();
-            FixMyPageLabels();
             EnableDoubleBuffering(); // 화면 깜빡임 방지
             InitDefaultImages();
             SetDoubleBuffered(tabControl1);
@@ -47,10 +46,8 @@ namespace Eco
         public MainForm(UserInfo user)
         {
             InitializeComponent();
-            FixMyPageLabels();
-            EnableDoubleBuffering();
-            SetDoubleBuffered(tabControl1);
-            SetAllControlsDoubleBuffered(tabControl1);
+            EnableDoubleBuffering(); // 화면 깜빡임 방지
+            SetDoubleBuffered(tabControl1); // 탭 및 하위 컨트롤 깜빡임 방지
             this.currentUser = user;
 
             InitDefaultImages();
@@ -63,10 +60,8 @@ namespace Eco
         public MainForm(UserInfo user, main form1)
         {
             InitializeComponent();
-            FixMyPageLabels();
-            EnableDoubleBuffering();
-            SetDoubleBuffered(tabControl1);
-            SetAllControlsDoubleBuffered(tabControl1);
+            EnableDoubleBuffering(); // 화면 깜빡임 방지
+            SetDoubleBuffered(tabControl1); // 탭 및 하위 컨트롤 깜빡임 방지
             this.currentUser = user;
             this.mainForm1 = form1; // 전달받은 Form1을 저장(이전 화면 객체 저장)
 
@@ -74,39 +69,6 @@ namespace Eco
             RegisterShopEvents();
             ShowWelcomeMessage();
             DisplayUserInfo();
-        }
-
-        // Keep label captions and measurements in separate non-overlapping areas.
-        private void FixMyPageLabels()
-        {
-            Font captionFont = new Font("맑은 고딕", 12F, FontStyle.Bold);
-            Font valueFont = new Font("맑은 고딕", 12F, FontStyle.Regular);
-
-            label33.AutoSize = false;
-            label33.Font = captionFont;
-            label33.Text = "지금까지 줄인 탄소 배출량 :";
-            label33.Location = new Point(30, 322);
-            label33.Size = new Size(300, 33);
-            label33.TextAlign = ContentAlignment.MiddleLeft;
-
-            label40.AutoSize = false;
-            label40.Font = captionFont;
-            label40.Text = "지금까지 심은 소나무 :";
-            label40.Location = new Point(30, 375);
-            label40.Size = new Size(300, 33);
-            label40.TextAlign = ContentAlignment.MiddleLeft;
-
-            lbCO2.AutoSize = false;
-            lbCO2.Font = valueFont;
-            lbCO2.Location = new Point(337, 322);
-            lbCO2.Size = new Size(270, 33);
-            lbCO2.TextAlign = ContentAlignment.MiddleLeft;
-
-            lbTree2.AutoSize = false;
-            lbTree2.Font = valueFont;
-            lbTree2.Location = new Point(337, 375);
-            lbTree2.Size = new Size(270, 33);
-            lbTree2.TextAlign = ContentAlignment.MiddleLeft;
         }
 
         // 폼 자체의 화면 깜빡임 현상을 줄여주는 더블 버퍼링 설정
@@ -141,7 +103,7 @@ namespace Eco
                 lbNowPoint.Text = currentUser.Point.ToString();
                 lbUsedPoint.Text = currentUser.UsedPoint.ToString();
                 lbCO2.Text = $"{currentUser.Co2Saved:F2} kg CO₂";
-                lbTree2.Text = $"약 {currentUser.TreeCount:F2} 그루";
+                lbTree2.Text = $"약 {currentUser.TreeCount:F2} 그루 🌲";
             }
         }
 
@@ -379,7 +341,7 @@ namespace Eco
                 sb.AppendLine("---------------------------------");
                 sb.AppendLine(" 🌿 환경 기여 효과");
                 sb.AppendLine($" - 탄소 감축량 : {co2Saved:F2} kg CO₂");
-                sb.AppendLine($" - 나무 심기   : 소나무 약 {treeEffect:F2} 그루");
+                sb.AppendLine($" - 나무 심기   : 소나무 약 {treeEffect:F2} 그루 🌲");
                 sb.AppendLine("=================================");
                 sb.AppendLine("  지구를 지키는 작은 실천, 감사합니다.!");
 
@@ -535,7 +497,7 @@ namespace Eco
             TabPage page = tab.TabPages[e.Index];
             bool isSelected = (tab.SelectedIndex == e.Index);
 
-
+            
             Color backColor = isSelected ? Color.SeaGreen : Color.FromArgb(220, 235, 225);
             Color textColor = isSelected ? Color.White : Color.DarkOliveGreen;
 
